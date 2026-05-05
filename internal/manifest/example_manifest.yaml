@@ -1,0 +1,41 @@
+# driftwatch manifest — describes the desired state of managed containers
+version: "1"
+
+containers:
+  - name: web
+    image: nginx:1.25-alpine
+    env:
+      NGINX_PORT: "80"
+      APP_ENV: production
+    ports:
+      - "80:80"
+      - "443:443"
+    labels:
+      app: web
+      managed-by: driftwatch
+    restart_policy: always
+
+  - name: api
+    image: myorg/api-server:2.3.1
+    env:
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      LOG_LEVEL: info
+    ports:
+      - "8080:8080"
+    labels:
+      app: api
+      managed-by: driftwatch
+    command: ["/app/server", "--config", "/etc/api/config.yaml"]
+    restart_policy: on-failure
+
+  - name: worker
+    image: myorg/worker:2.3.1
+    env:
+      QUEUE_URL: amqp://rabbitmq:5672
+      CONCURRENCY: "4"
+    labels:
+      app: worker
+      managed-by: driftwatch
+    command: ["/app/worker"]
+    restart_policy: unless-stopped
