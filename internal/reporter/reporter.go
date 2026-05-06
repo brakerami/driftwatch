@@ -64,11 +64,15 @@ func (r *Reporter) writeJSON(rep Report) error {
 }
 
 func (r *Reporter) writeText(rep Report) error {
-	fmt.Fprintf(r.out, "Drift Report — %s\n", rep.Timestamp.Format(time.RFC3339))
-	fmt.Fprintf(r.out, "Total findings: %d\n\n", rep.TotalDrift)
+	if _, err := fmt.Fprintf(r.out, "Drift Report — %s\n", rep.Timestamp.Format(time.RFC3339)); err != nil {
+		return err
+	}
+	if _, err := fmt.Fprintf(r.out, "Total findings: %d\n\n", rep.TotalDrift); err != nil {
+		return err
+	}
 	if rep.TotalDrift == 0 {
-		fmt.Fprintln(r.out, "No drift detected.")
-		return nil
+		_, err := fmt.Fprintln(r.out, "No drift detected.")
+		return err
 	}
 	tw := tabwriter.NewWriter(r.out, 0, 0, 2, ' ', 0)
 	fmt.Fprintln(tw, "CONTAINER\tTYPE\tDETAIL")
