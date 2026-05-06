@@ -1,0 +1,17 @@
+[
+  {
+    "container_name": "sidecar",
+    "drift_type": "env",
+    "reason": "Environment variables are injected by the platform at runtime and are expected to differ."
+  },
+  {
+    "container_name": "",
+    "drift_type": "label",
+    "reason": "CI pipeline appends build-metadata labels to every image; label drift is intentional."
+  },
+  {
+    "container_name": "debug-tools",
+    "drift_type": "image",
+    "reason": "Debug container is pinned to a rolling tag and image drift is acceptable."
+  }
+]
