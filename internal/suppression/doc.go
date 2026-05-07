@@ -6,6 +6,16 @@
 // container name (or empty string to match all containers) and a drift
 // type string such as "env", "image", or "label".
 //
+// Matching behaviour:
+//
+//   - If container_name is non-empty, the rule applies only to the named
+//     container. If it is an empty string, the rule applies to every
+//     container in the pod.
+//   - drift_type is matched case-insensitively against the finding type
+//     produced by the drift-detection engine.
+//   - reason is a free-text field for audit purposes and has no effect on
+//     matching logic.
+//
 // Example rules file:
 //
 //	[
