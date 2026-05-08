@@ -63,6 +63,16 @@ func TestMaskValue_SafeKeyPassesThrough(t *testing.T) {
 	}
 }
 
+func TestMaskValue_EmptyValueSensitiveKey(t *testing.T) {
+	r, _ := redactor.New(nil)
+	// An empty value for a sensitive key should still be redacted to avoid
+	// leaking the fact that the variable is unset vs. intentionally blank.
+	got := r.MaskValue("DB_PASSWORD", "")
+	if got != "[REDACTED]" {
+		t.Errorf("expected [REDACTED] for empty sensitive value, got %q", got)
+	}
+}
+
 func TestMaskEnv_MixedEntries(t *testing.T) {
 	r, _ := redactor.New(nil)
 	input := []string{
