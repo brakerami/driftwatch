@@ -1,0 +1,36 @@
+{
+  "rules": [
+    {
+      "name": "env-drift-critical",
+      "drift_type": "env",
+      "severity": "critical",
+      "enabled": true
+    },
+    {
+      "name": "image-drift-warning",
+      "drift_type": "image",
+      "severity": "warning",
+      "enabled": true
+    },
+    {
+      "name": "label-drift-info",
+      "drift_type": "label",
+      "severity": "info",
+      "enabled": true
+    },
+    {
+      "name": "api-env-critical",
+      "drift_type": "env",
+      "containers": ["api", "gateway"],
+      "severity": "critical",
+      "enabled": true
+    },
+    {
+      "name": "legacy-image-disabled",
+      "drift_type": "image",
+      "containers": ["legacy-worker"],
+      "severity": "critical",
+      "enabled": false
+    }
+  ]
+}
